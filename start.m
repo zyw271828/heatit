@@ -67,7 +67,7 @@ for d = 1:length(datasetCandi)
                 res(end, :) = [];
                 disp(['Query number: ', num2str(ii)])
                 % groundtruthset data is numbered from 0
-                recall = length(union(res(:, 1), groundtruthset(ii, :)' + 1)) / length(groundtruthset);
+                recall = length(intersect(res(:, 1), groundtruthset(ii, :)' + 1)) / length(groundtruthset);
                 disp(['recall: ', num2str(recall)])
                 % disp(res);
                 disp('==============================');
