@@ -46,16 +46,17 @@ for d = 1:length(datasetCandi)
             disp([method, ' ', num2str(realcodelength), 'bit learned.', dataset]);
             disp('==============================');
             disp(['Total training time: ', num2str(train_elapse)]);
-            disp(['Total testing time: ', num2str(test_elapse)]);
+            disp(['Total test time: ', num2str(test_elapse)]);
 
             % start searching
             groundtruthset = ivecs_read(['./dataset/', dataset, '/', dataset, '_groundtruth.ivecs']);
             groundtruthset = groundtruthset';
-            res = Inf(length(groundtruthset) + 1, 2);
 
             tmp_T = tic;
 
             for ii = 1:size(testB, 1)
+
+                res = Inf(length(groundtruthset) + 1, 2);
 
                 for jj = 1:size(trainB, 1)
                     res(length(groundtruthset) + 1, 1) = jj;
@@ -65,16 +66,16 @@ for d = 1:length(datasetCandi)
 
                 res(end, :) = [];
                 disp(['Query number: ', num2str(ii)])
-                disp(res);
+                % groundtruthset data is numbered from 0
+                recall = length(union(res(:, 1), groundtruthset(ii, :)' + 1)) / length(groundtruthset);
+                disp(['recall: ', num2str(recall)])
+                % disp(res);
+                disp('==============================');
             end
 
             search_elapse = toc(tmp_T);
-            disp(['Search time (', num2str(codelength), '-bits ', method, '): ', num2str(search_elapse)]);
+            disp(['Total search time (', num2str(codelength), '-bits ', method, '): ', num2str(search_elapse)]);
 
-            % Evaluation
-            % ivecs_read('./dataset/siftsmall/siftsmall_groundtruth.ivecs')'
-            % first query: ans(1, :)' + 1
-            % calc
         end
 
     end
