@@ -82,6 +82,9 @@ for d = 1:length(datasetCandi)
         hold on;
     end
 
-    legend(methodCandi);
+    legend(methodCandi, 'Location', 'southeast');
+    title(['Recall - time curves on ', dataset, ' dataset'])
+    xlabel('Time (s)');
+    ylabel('Recall');
     hold off;
 end
