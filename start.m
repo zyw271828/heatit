@@ -6,7 +6,7 @@ datasetCandi = {'siftsmall'};
 methodCandi = {'LSH', 'SpH'};
 % methodCandi = {'AGH1', 'AGH2', 'BRE', 'CH', 'CPH', 'DSH', 'IsoH', 'ITQ', 'KLSH', 'LSH', 'SH', 'SpH', 'USPLH'};
 
-codelengthCandi = [32, 64];
+codelengthCandi = [32, 64, 128];
 % codelengthCandi = [32, 64, 128, 256, 512, 1024];
 
 for d = 1:length(datasetCandi)
@@ -14,6 +14,8 @@ for d = 1:length(datasetCandi)
 
     for m = 1:length(methodCandi)
         method = methodCandi{m};
+        recall_vector = zeros(1, length(codelengthCandi)); % used to draw curves
+        search_time_vector = Inf(1, length(codelengthCandi));
 
         for c = 1:length(codelengthCandi)
             codelength = codelengthCandi(c);
@@ -72,8 +74,14 @@ for d = 1:length(datasetCandi)
 
             disp(['Total search time: ', num2str(search_time_sum)]);
             disp(['Average recall: ', num2str(recall_sum / length(groundtruthset))]);
+            recall_vector(c) = recall_sum / length(groundtruthset);
+            search_time_vector(c) = search_time_sum;
         end
 
+        plot(search_time_vector, recall_vector, '-*');
+        hold on;
     end
 
+    legend(methodCandi);
+    hold off;
 end
