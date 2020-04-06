@@ -6,11 +6,19 @@ datasetCandi = {'siftsmall'};
 methodCandi = {'LSH', 'SpH'};
 % methodCandi = {'AGH1', 'AGH2', 'BRE', 'CH', 'CPH', 'DSH', 'IsoH', 'ITQ', 'KLSH', 'LSH', 'SH', 'SpH', 'USPLH'};
 
-codelengthCandi = [32, 64, 128];
+codelengthCandi = [32, 64, 128, 256, 512, 1024];
 % codelengthCandi = [32, 64, 128, 256, 512, 1024];
 
 for d = 1:length(datasetCandi)
     dataset = datasetCandi{d};
+
+    % read trainset, testset and groundtruthset
+    trainset = double(fvecs_read(['./dataset/', dataset, '/', dataset, '_base.fvecs']));
+    trainset = trainset';
+    testset = fvecs_read(['./dataset/', dataset, '/', dataset, '_query.fvecs']);
+    testset = testset';
+    groundtruthset = ivecs_read(['./dataset/', dataset, '/', dataset, '_groundtruth.ivecs']);
+    groundtruthset = groundtruthset';
 
     for m = 1:length(methodCandi)
         method = methodCandi{m};
@@ -23,11 +31,6 @@ for d = 1:length(datasetCandi)
             disp('==============================');
             disp([num2str(codelength), '-bits ', method, ' on ', dataset]);
             disp('------------------------------');
-
-            trainset = double(fvecs_read(['./dataset/', dataset, '/', dataset, '_base.fvecs']));
-            testset = fvecs_read(['./dataset/', dataset, '/', dataset, '_query.fvecs']);
-            trainset = trainset';
-            testset = testset';
 
             % start training and testing
             trainStr = ['[model, trainB, train_elapse] = ', method, '_learn(trainset, codelength);'];
@@ -43,23 +46,21 @@ for d = 1:length(datasetCandi)
             disp(['Total test time: ', num2str(test_elapse)]);
 
             % start searching
-            groundtruthset = ivecs_read(['./dataset/', dataset, '/', dataset, '_groundtruth.ivecs']);
-            groundtruthset = groundtruthset';
             recall_sum = 0; % used to calculate average recall
             search_time_sum = 0;
 
             for ii = 1:size(testB, 1)
 
-                res = Inf(length(groundtruthset) + 1, 2);
+                res = Inf(length(trainB), 2);
                 tmp_T = tic;
 
                 for jj = 1:size(trainB, 1)
-                    res(length(groundtruthset) + 1, 1) = jj;
-                    res(length(groundtruthset) + 1, 2) = hammingDist(testB(ii, :), trainB(jj, :));
-                    res = sortrows(res, 2); % sort by hamming distance
+                    res(jj, 1) = jj;
+                    res(jj, 2) = hammingDist(testB(ii, :), trainB(jj, :));
                 end
 
-                res(end, :) = [];
+                res = sortrows(res, 2); % sort by hamming distance
+                res = res(1:length(groundtruthset), :);
 
                 search_time = toc(tmp_T);
                 search_time_sum = search_time_sum + search_time;
