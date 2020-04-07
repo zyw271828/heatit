@@ -4,7 +4,7 @@ addpath(genpath('./'))
 datasetCandi = {'siftsmall'};
 
 % methodCandi = {'AGH1', 'AGH2', 'BRE', 'CH', 'CPH', 'DSH', 'IsoH', 'ITQ', 'KLSH', 'LSH', 'SH', 'SpH', 'USPLH'};
-methodCandi = {'LSH'};
+methodCandi = {'LSH', 'SpH'};
 
 % the number of retrieved samples increments from 0 to length(trainset) in step incrementalStep
 incrementalStep = 100;
@@ -22,6 +22,10 @@ for d = 1:length(datasetCandi)
     testset = testset';
     groundtruthset = ivecs_read(['./dataset/', dataset, '/', dataset, '_groundtruth.ivecs']);
     groundtruthset = groundtruthset';
+
+    % create tiled chart layout, introduced in R2019b
+    t = tiledlayout(1, 3);
+    title(t, [num2str(codelength), '-bits code length on ', dataset, ' dataset']);
 
     for m = 1:length(methodCandi)
         method = methodCandi{m};
@@ -95,42 +99,35 @@ for d = 1:length(datasetCandi)
 
         end
 
-        % create tiled chart layout, introduced in R2019b
-        % FIXME: Cannot draw curves for multiple methods
-        t = tiledlayout(1, 3);
-        title(t, [num2str(codelength), '-bits code length on ', dataset, ' dataset'])
+        ax1 = nexttile(1);
+        plot(ax1, the_number_of_retrieved_samples_vector, recall_vector, '-*');
+        hold(ax1, 'on');
 
-        nexttile(1);
-        plot(the_number_of_retrieved_samples_vector, recall_vector, '-*');
-        hold on;
+        ax2 = nexttile(2);
+        plot(ax2, the_number_of_retrieved_samples_vector, precision_vector, '-*');
+        hold(ax2, 'on');
 
-        nexttile(2);
-        plot(the_number_of_retrieved_samples_vector, precision_vector, '-*');
-        hold on;
-
-        nexttile(3);
-        plot(recall_vector, precision_vector, '-*');
-        hold on;
+        ax3 = nexttile(3);
+        plot(ax3, recall_vector, precision_vector, '-*');
+        hold(ax3, 'on');
     end
 
-    nexttile(1);
-    legend(methodCandi, 'Location', 'southeast');
-    title('Recall - the number of retrieved samples curves')
-    xlabel('The number of retrieved samples');
-    ylabel('Recall');
-    hold off;
+    % add title and axis labels to chart
+    legend(ax1, methodCandi, 'Location', 'southeast');
+    title(ax1, 'Recall - the number of retrieved samples curves');
+    xlabel(ax1, 'The number of retrieved samples');
+    ylabel(ax1, 'Recall');
+    hold(ax1, 'off');
 
-    nexttile(2);
-    legend(methodCandi, 'Location', 'northeast');
-    title('Precision - the number of retrieved samples curves')
-    xlabel('The number of retrieved samples');
-    ylabel('Precision');
-    hold off;
+    legend(ax2, methodCandi, 'Location', 'northeast');
+    title(ax2, 'Precision - the number of retrieved samples curves');
+    xlabel(ax2, 'The number of retrieved samples');
+    ylabel(ax2, 'Precision');
+    hold(ax2, 'off');
 
-    nexttile(3);
-    legend(methodCandi, 'Location', 'southwest');
-    title('Precision - recall curves')
-    xlabel('Recall');
-    ylabel('Precision');
-    hold off;
+    legend(ax3, methodCandi, 'Location', 'southwest');
+    title(ax3, 'Precision - recall curves');
+    xlabel(ax3, 'Recall');
+    ylabel(ax3, 'Precision');
+    hold(ax3, 'off');
 end
