@@ -79,8 +79,8 @@ function [code, pj, thres, meandata, sigma, Thtrain] = CPH(data, anchor, bit)
     end
 
     % output the offline code
-    code = ones(n, bit);
-    code((data * pj) < repmat(thres, n, 1)) = -1;
+    code = true(n, bit);
+    code((data * pj) < repmat(thres, n, 1)) = 0;
     fprintf('\n');
 
 end
