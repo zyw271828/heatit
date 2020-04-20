@@ -6,8 +6,8 @@ datasetCandi = {'siftsmall'};
 % methodCandi = {'AGH1', 'AGH2', 'BRE', 'CH', 'CPH', 'DSH', 'IsoH', 'ITQ', 'KLSH', 'LSH', 'SH', 'SpH', 'USPLH'};
 methodCandi = {'LSH', 'SpH'};
 
-% the number of retrieved samples increments from 0 to length(trainset) in step incrementalStep
-incrementalStep = 100;
+% the number of retrieved samples vector is round(logspace(0, log10(length(trainset)), numberOfPoint))
+numberOfPoint = 20;
 
 % code length used for training
 codelength = 64;
@@ -29,8 +29,8 @@ for d = 1:length(datasetCandi)
 
     for m = 1:length(methodCandi)
         method = methodCandi{m};
-        the_number_of_retrieved_samples_vector = (0:incrementalStep:length(trainset));
-        % the_number_of_retrieved_samples_vector = (0:incrementalStep:length(groundtruthset)); % debug
+        the_number_of_retrieved_samples_vector = round(logspace(0, log10(length(trainset)), numberOfPoint));
+        % the_number_of_retrieved_samples_vector = (0:1000:length(trainset)); % debug
 
         % used to draw curves
         recall_vector = Inf(1, length(the_number_of_retrieved_samples_vector));
@@ -92,7 +92,8 @@ for d = 1:length(datasetCandi)
             precision_vector(n) = average_precision;
 
             % 68-95-99.7 rule
-            if average_recall >= 0.997
+            % if average_recall >= 0.997
+            if average_recall >= 1
                 disp(['break, number_retrieved is ', num2str(number_retrieved)]);
                 break
             end
