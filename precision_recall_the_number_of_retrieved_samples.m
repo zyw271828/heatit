@@ -126,7 +126,7 @@ for d = 1:length(datasetCandi)
     ylabel(ax2, 'Precision');
     hold(ax2, 'off');
 
-    legend(ax3, methodCandi, 'Location', 'southwest');
+    legend(ax3, methodCandi, 'Location', 'northeast');
     title(ax3, 'Precision - recall curves');
     xlabel(ax3, 'Recall');
     ylabel(ax3, 'Precision');
