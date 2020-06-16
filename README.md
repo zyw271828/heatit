@@ -1,10 +1,14 @@
 # heatit
 
-HEATIT - Hash EvAluation ToolkIT
+HEATIT - Hashing EvAluation ToolkIT
 
 ## Usage
 
-You can get the following three curves drawn by the Hamming ranking method:
+Supported hashing methods:
+
+`AGH, BRE, CH, CPH, DSH, IsoH, ITQ, KLSH, LSH, SH, SpH, USPLH`
+
+You can get the following curves drawn by the Hamming ranking method:
 
 * Recall - the number of retrieved samples curves
 * Precision - the number of retrieved samples curves
