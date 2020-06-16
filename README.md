@@ -12,11 +12,16 @@ You can get the following three curves drawn by the Hamming ranking method:
 
 ### For GUI
 
-Run `heatit.mlapp` using MATLAB App Designer.
+* Download siftsmall.tar.gz, siftsmall.tar.gz and gist.tar.gz from [here](http://corpus-texmex.irisa.fr/).
+* Extract the data set you want to use to the corresponding folder.
+* Run `heatit.mlapp` using MATLAB App Designer.
 
 ### For CLI
 
-Run `heatit.m`. You can choose different `datasetCandi`, `methodCandi`, `numberOfPoint` and `codelength` parameters. Modifying any code of `heatit.m` does not affect the behavior of `heatit.mlapp`.
+* Download siftsmall.tar.gz, siftsmall.tar.gz and gist.tar.gz from [here](http://corpus-texmex.irisa.fr/).
+* Extract the data set you want to use to the corresponding folder.
+* Run `heatit.m`.
+* You can choose different `datasetCandi`, `methodCandi`, `numberOfPoint` and `codelength` parameters. Modifying any code of `heatit.m` does not affect the behavior of `heatit.mlapp`.
 
 ## Screenshots
 
