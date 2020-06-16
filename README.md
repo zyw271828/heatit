@@ -2,6 +2,22 @@
 
 HEATIT - Hash EvAluation ToolkIT
 
+## Usage
+
+You can get the following three curves drawn by the Hamming ranking method:
+
+* Recall - the number of retrieved samples curves
+* Precision - the number of retrieved samples curves
+* Precision - recall curves
+
+### For GUI
+
+Run `heatit.mlapp` using MATLAB App Designer.
+
+### For CLI
+
+Run `heatit.m`. You can choose different `datasetCandi`, `methodCandi`, `numberOfPoint` and `codelength` parameters. Modifying any code of `heatit.m` does not affect the behavior of `heatit.mlapp`.
+
 ## Screenshots
 
 <p align="center"><img src="./img/interface.png" width="800"></p>
@@ -21,3 +37,7 @@ function [test_coded, test_time] = method_compress(testset, model)
 ## Datasets
 
 [SIFT10K, SIFT1M and GIST1M](http://corpus-texmex.irisa.fr/)
+
+## License
+
+Heatit is licensed under the MIT License.
