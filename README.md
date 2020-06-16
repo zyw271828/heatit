@@ -1,5 +1,7 @@
 # heatit
 
+![logo](img/heatit_logo.png)
+
 HEATIT - Hashing EvAluation ToolkIT
 
 ## Usage
